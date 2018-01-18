@@ -63,9 +63,9 @@ func TestGNGGABadLongitude(t *testing.T) {
 
 func TestGNGGABadFixQuality(t *testing.T) {
 	// Make sure bad fix mode is detected.
-	badMode := "$GNGGA,034225.077,3356.4650,S,15124.5567,E,5,03,9.7,-25.0,M,21.0,M,,0000*4B"
+	badMode := "$GNGGA,034225.077,3356.4650,S,15124.5567,E,10,03,9.7,-25.0,M,21.0,M,,0000*7F"
 	_, err := Parse(badMode)
 
 	assert.Error(t, err, "Parse error not returned")
-	assert.Equal(t, err.Error(), "Invalid fix quality [5]", "Error message not as expected")
+	assert.Equal(t, "Invalid fix quality [10]", err.Error(), "Error message not as expected")
 }

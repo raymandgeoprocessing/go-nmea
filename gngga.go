@@ -7,6 +7,8 @@ const (
 	PrefixGNGGA = "GNGGA"
 )
 
+// GNGGA represents fix data.
+// http://aprs.gids.nl/nmea/#gga
 type GNGGA struct {
 	Sentence
 	// Time of fix.
@@ -31,12 +33,14 @@ type GNGGA struct {
 	DGPSId string
 }
 
+// NewGNGGA constructor
 func NewGNGGA(sentence Sentence) GNGGA {
 	s := new(GNGGA)
 	s.Sentence = sentence
 	return *s
 }
 
+// GetSentence getter
 func (s GNGGA) GetSentence() Sentence {
 	return s.Sentence
 }
@@ -57,7 +61,7 @@ func (s *GNGGA) parse() error {
 		return fmt.Errorf("GNGGA decode error: %s", err)
 	}
 	s.FixQuality = s.Fields[5]
-	if s.FixQuality != Invalid && s.FixQuality != GPS && s.FixQuality != DGPS {
+	if s.FixQuality != Invalid && s.FixQuality != GPS && s.FixQuality != DGPS && s.FixQuality != PPS && s.FixQuality != RTK && s.FixQuality != FRTK {
 		return fmt.Errorf("Invalid fix quality [%s]", s.FixQuality)
 	}
 	s.NumSatellites = s.Fields[6]
